@@ -4,6 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Enable mainline artifact path enforcement
+PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := strict
+
 # Setup dalvik vm configs
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
