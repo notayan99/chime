@@ -234,6 +234,9 @@ persist.sys.oem.otg_support=true
 # QCA1530 detection
 sys.qca1530=detect
 
+# Perf
+ro.vendor.extension_library=libqti-perfd-client.so
+
 # Radio
 persist.radio.multisim.config=dsds
 keyguard.no_require_sim=true
