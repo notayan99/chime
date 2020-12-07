@@ -48,6 +48,10 @@ on init
     start vendor.qseecomd
     start keymaster-4-0
 
+    # set default schedTune value for camera-daemon
+    write /dev/stune/camera-daemon/schedtune.prefer_idle 1
+    write /dev/stune/camera-daemon/schedtune.boost 0
+
 on early-fs
     start vold
 
