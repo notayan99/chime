@@ -4,6 +4,9 @@ arm64.memtag.process.system_server=off
 # Bluetooth
 vendor.bluetooth.soc=cherokee
 
+# Dexopt
+dalvik.vm.dex2oat64.enabled=true
+
 # Charger
 ro.charger.disable_init_blank=true
 persist.vendor.quick.charge=1
