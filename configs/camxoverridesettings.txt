@@ -1,6 +1,4 @@
 dumpSensorEEPROMData=FALSE
 enable3ADebugData=FALSE
 enableTuningMetadata=FALSE
-logInfoMask=0x10080
-overrideLogLevels=0x1F
 RaiseRecoverySigabrt=FALSE
