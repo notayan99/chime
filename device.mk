@@ -129,6 +129,10 @@ PRODUCT_PACKAGES += \
     libstdc++.vendor \
     libgui_vendor
 
+# Camx overrides
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/camxoverridesettings.txt:$(TARGET_COPY_OUT_VENDOR)/etc/camera/camxoverridesettings.txt
+
 PRODUCT_PACKAGES += \
     libpiex_shim
 
