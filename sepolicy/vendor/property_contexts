@@ -34,6 +34,9 @@ ro.boot.hwversion                               u:object_r:vendor_public_vendor_
 # Mlipay
 persist.vendor.sys.pay                          u:object_r:vendor_tee_listener_prop:s0
 
+# Power
+vendor.powerhal.                                u:object_r:vendor_power_prop:s0
+
 # RIL
 ro.vendor.ril                                   u:object_r:vendor_public_vendor_default_prop:s0
 
