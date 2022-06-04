@@ -401,6 +401,7 @@ PRODUCT_PACKAGES += \
 # Power
 PRODUCT_PACKAGES += \
     android.hardware.power-service.chime-libperfmgr \
+    android.hardware.power@1.3.vendor \
     libqti-perfd-client
 
 PRODUCT_COPY_FILES += \
