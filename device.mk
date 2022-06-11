@@ -386,6 +386,7 @@ PRODUCT_PACKAGES += \
     CarrierConfigOverlay \
     FrameworksResOverlayChime \
     SettingsOverlayChime \
+    SettingsProviderChime \
     SystemUIOverlayChime \
     TelephonyOverlayChime \
     WifiResCommon
