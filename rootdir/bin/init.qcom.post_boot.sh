@@ -103,6 +103,16 @@ case "$target" in
         echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
     fi
 
+    # configure governor settings for little cluster
+    echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
+    echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
+    echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
+
+    # configure governor settings for big cluster
+    echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
+    echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
+    echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
+
     # configure input boost settings
     echo "0:1324800" > /sys/module/cpu_boost/parameters/input_boost_freq
     echo 120 > /sys/module/cpu_boost/parameters/input_boost_ms
