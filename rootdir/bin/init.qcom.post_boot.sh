@@ -56,19 +56,19 @@ function configure_memory_parameters() {
 
 case "$target" in
     "bengal")
+    # Core control parameters for silver
+    echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
+    echo 60 > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
+    echo 30 > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
+    echo 100 > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
+    echo 3 > /sys/devices/system/cpu/cpu0/core_ctl/task_thres
+
     # Core control parameters for gold
-    echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+    echo 0 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
     echo 60 > /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres
     echo 30 > /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres
     echo 100 > /sys/devices/system/cpu/cpu4/core_ctl/offline_delay_ms
-    echo 3 > /sys/devices/system/cpu/cpu4/core_ctl/task_thres
-
-    # Core control parameters for gold+
-    echo 0 > /sys/devices/system/cpu/cpu7/core_ctl/min_cpus
-    echo 60 > /sys/devices/system/cpu/cpu7/core_ctl/busy_up_thres
-    echo 30 > /sys/devices/system/cpu/cpu7/core_ctl/busy_down_thres
-    echo 100 > /sys/devices/system/cpu/cpu7/core_ctl/offline_delay_ms
-    echo 1 > /sys/devices/system/cpu/cpu7/core_ctl/task_thres
+    echo 1 > /sys/devices/system/cpu/cpu4/core_ctl/task_thres
     # Controls how many more tasks should be eligible to run on gold CPUs
     # w.r.t number of gold CPUs available to trigger assist (max number of
     # tasks eligible to run on previous cluster minus number of CPUs in
@@ -77,7 +77,7 @@ case "$target" in
     # Setting to 1 by default which means there should be at least
     # 4 tasks eligible to run on gold cluster (tasks running on gold cores
     # plus misfit tasks on silver cores) to trigger assitance from gold+.
-    echo 1 > /sys/devices/system/cpu/cpu7/core_ctl/nr_prev_assist_thresh
+    echo 1 > /sys/devices/system/cpu/cpu4/core_ctl/nr_prev_assist_thresh
 
     # Disable Core control on silver
     echo 0 > /sys/devices/system/cpu/cpu0/core_ctl/enable
@@ -95,16 +95,12 @@ case "$target" in
     # schedutil custom setup (WALT only)
     if [ -f /proc/sys/kernel/sched_walt_rotate_big_tasks ]; then
         # configure governor settings for silver cluster
-        echo 1209600 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
+        echo 1305600 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/hispeed_freq
         echo 1 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/pl
 
         # configure governor settings for gold cluster
         echo 1612800 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/hispeed_freq
         echo 1 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/pl
-
-        # configure governor settings for gold+ cluster
-        echo 1612800 > /sys/devices/system/cpu/cpufreq/policy7/schedutil/hispeed_freq
-        echo 1 > /sys/devices/system/cpu/cpufreq/policy7/schedutil/pl
     fi
 
     # configure input boost settings
