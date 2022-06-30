@@ -104,11 +104,13 @@ case "$target" in
     fi
 
     # configure governor settings for little cluster
+    chmod 644 /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
     echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
     echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/up_rate_limit_us
     echo 0 > /sys/devices/system/cpu/cpufreq/policy0/schedutil/down_rate_limit_us
 
     # configure governor settings for big cluster
+    chmod 644 /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
     echo "schedutil" > /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
     echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/up_rate_limit_us
     echo 0 > /sys/devices/system/cpu/cpufreq/policy4/schedutil/down_rate_limit_us
