@@ -160,9 +160,6 @@
     -->
      <bool name="config_powerDecoupleInteractiveModeFromDisplay">false</bool>
 
-    <!-- Boolean indicating whether the HWC setColorTransform function can be performed efficiently in hardware. -->
-     <bool name="config_setColorTransformAccelerated">true</bool>
-
     <!-- Color mode to use when accessibility transforms are enabled. This color mode must be
      supported by the device, but not necessarily appear in config_availableColorModes. The
      regularly selected color mode will be used if this value is negative. -->
