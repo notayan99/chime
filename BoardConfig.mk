@@ -150,7 +150,6 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_BOARD_PLATFORM := bengal
 
 # Power
-TARGET_POWERHAL_MODE_EXT := $(DEVICE_PATH)/power/power-mode.cpp
 TARGET_TAP_TO_WAKE_NODE := "/sys/touchpanel/double_tap"
 TARGET_USES_INTERACTION_BOOST := true
 
