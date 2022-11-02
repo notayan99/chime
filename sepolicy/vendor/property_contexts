@@ -25,6 +25,7 @@ vendor.silead.fp.ext.enable                     u:object_r:vendor_fp_prop:s0
 vendor.sys.fp                                   u:object_r:vendor_fp_prop:s0
 ro.boot.fpsensor                                u:object_r:vendor_fp_prop:s0
 ro.hardware.fp.sideCap                          u:object_r:vendor_fp_prop:s0
+sys.fp.miui.token                               u:object_r:vendor_fp_prop:s0
 sys.fp.vendor                                   u:object_r:vendor_fp_prop:s0
 
 # Global
