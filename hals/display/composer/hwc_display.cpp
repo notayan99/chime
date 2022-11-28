@@ -519,6 +519,16 @@ int HWCDisplay::Init() {
     return -EINVAL;
   }
 
+  bool is_primary_ = display_intf_->IsPrimaryDisplay();
+  if (is_primary_) {
+    int value = 0;
+    HWCDebugHandler::Get()->GetProperty(ENABLE_POMS_DURING_DOZE, &value);
+    enable_poms_during_doze_ = (value == 1);
+    if (enable_poms_during_doze_) {
+      DLOGI("Enable POMS during Doze mode %" PRIu64 , id_);
+    }
+  }
+
   UpdateConfigs();
 
   tone_mapper_ = new HWCToneMapper(buffer_allocator_);
@@ -556,11 +566,18 @@ void HWCDisplay::UpdateConfigs() {
     DisplayConfigVariableInfo info = {};
     GetDisplayAttributesForConfig(INT(i), &info);
     bool config_exists = false;
+
+    if (!smart_panel_config_ && info.smart_panel) {
+      smart_panel_config_ = true;
+    }
+
     for (auto &config : variable_config_map_) {
       if (config.second == info) {
-        config_exists = true;
-        hwc_config_map_.at(i) = config.first;
-        break;
+        if (enable_poms_during_doze_ || (config.second.smart_panel == info.smart_panel)) {
+          config_exists = true;
+          hwc_config_map_.at(i) = config.first;
+          break;
+        }
       }
     }
 
@@ -578,7 +595,7 @@ void HWCDisplay::UpdateConfigs() {
 
   // Update num config count.
   num_configs_ = UINT32(variable_config_map_.size());
-  DLOGI("num_configs = %d", num_configs_);
+  DLOGI("num_configs = %d smart_panel_config_ = %d", num_configs_, smart_panel_config_);
 }
 
 int HWCDisplay::Deinit() {
@@ -2597,10 +2614,31 @@ HWC2::Error HWCDisplay::GetDisplayVsyncPeriod(VsyncPeriodNanos *vsync_period) {
 HWC2::Error HWCDisplay::SetActiveConfigWithConstraints(
     hwc2_config_t config, const VsyncPeriodChangeConstraints *vsync_period_change_constraints,
     VsyncPeriodChangeTimeline *out_timeline) {
+  DTRACE_SCOPED();
+
   if (variable_config_map_.find(config) == variable_config_map_.end()) {
     DLOGE("Invalid config: %d", config);
     return HWC2::Error::BadConfig;
   }
+
+  // DRM driver expects DRM_PREFERRED_MODE to be set as part of first commit
+  if (!IsFirstCommitDone()) {
+    // Store client's config.
+    // Set this as part of post commit.
+    pending_first_commit_config_ = true;
+    pending_first_commit_config_index_ = config;
+    DLOGI("Defer config change to %d until first commit", UINT32(config));
+    return HWC2::Error::None;
+  } else if (pending_first_commit_config_) {
+    // Config override request from client.
+    // Honour latest request.
+    pending_first_commit_config_ = false;
+  }
+
+  // Cache refresh rate set by client.
+  DisplayConfigVariableInfo info = {};
+  GetDisplayAttributesForConfig(INT(config), &info);
+  active_refresh_rate_ = info.fps;
 
   if (vsync_period_change_constraints->seamlessRequired && !AllowSeamless(config)) {
     DLOGE("Seamless switch to the config: %d, is not allowed!", config);

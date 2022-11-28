@@ -82,16 +82,18 @@ LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_C_INCLUDES := \
         external/tinyalsa/include \
+        device/xiaomi/chime/hals/audio/hal \
         $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
         $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/audio \
         $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/techpack/audio/include \
-        $(call include-path-for, audio-effects)
+        $(call include-path-for, audio-effects) \
+        device/xiaomi/chime/hals/audio/hal/audio_extn
 ifneq ($(BOARD_OPENSOURCE_DIR), )
    LOCAL_C_INCLUDES += $(BOARD_OPENSOURCE_DIR)/audio-hal/primary-hal/hal \
-                       $(BOARD_OPENSOURCE_DIR)/audio-hal/primary-hal/hal/audio_extn/
+                       $(BOARD_OPENSOURCE_DIR)/audio-hal/primary-hal/hal/audio_extn
 else
    LOCAL_C_INCLUDES += device/xiaomi/chime/hals/audio/hal \
-                       device/xiaomi/chime/hals/audio/hal/audio_extn/
+                       device/xiaomi/chime/hals/audio/hal/audio_extn
 endif # BOARD_OPENSOURCE_DIR
 
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_DLKM)),true)
@@ -106,6 +108,10 @@ endif
 ifeq ($(TARGET_COMPILE_WITH_MSM_KERNEL),true)
         LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/techpack/audio/include
         LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
+
+ifeq ($(ENABLE_AUDIO_LEGACY_TECHPACK),true)
+LOCAL_HEADER_LIBRARIES += qti_legacy_audio_kernel_uapi
 endif
 
 ifneq ($(filter kona lahaina holi,$(TARGET_BOARD_PLATFORM)),)
@@ -204,12 +210,14 @@ LOCAL_MODULE_OWNER := qti
 LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_C_INCLUDES := \
+        device/xiaomi/chime/hals/audio/hal \
         $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
         $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/audio \
         $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/techpack/audio/include \
         external/tinyalsa/include \
         $(call include-path-for, audio-effects) \
         $(call include-path-for, audio-route) \
+        device/xiaomi/chime/hals/audio/hal/audio_extn \
         external/tinycompress/include \
         system/media/audio_utils/include
 ifneq ($(BOARD_OPENSOURCE_DIR), )
@@ -264,7 +272,7 @@ LOCAL_MODULE_OWNER := google
 LOCAL_PROPRIETARY_MODULE := true
 
 LOCAL_C_INCLUDES := \
-    hardware/qcom/audio/hal \
+    device/xiaomi/chime/hals/audio/hal \
     system/media/audio/include/system \
     $(call include-path-for, audio-effects)
 
