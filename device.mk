@@ -172,7 +172,8 @@ PRODUCT_PACKAGES += \
     memtrack.bengal \
     gralloc.bengal \
     hwcomposer.bengal \
-    libdisplayconfig \
+    libdisplayconfig.qti \
+    libdisplayconfig.system.qti \
     libqdMetaData \
     libqdMetaData.system \
     libsdmcore \
