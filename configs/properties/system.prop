@@ -6,6 +6,8 @@ vendor.bluetooth.soc=cherokee
 
 # Dexopt
 dalvik.vm.dex2oat64.enabled=true
+dalvik.vm.systemuicompilerfilter=speed
+dalvik.vm.checkjni=false
 
 # Charger
 ro.charger.disable_init_blank=true
@@ -26,7 +28,7 @@ persist.demo.hdmirotationlock=false
 ro.hardware.fp.sideCap=true
 sys.fp.miui.token=0
 
-# Fwk detect
+# FWK Detect
 ro.vendor.qti.va_aosp.support=1
 
 # IMS
@@ -37,17 +39,14 @@ persist.dbg.wfc_avail_ovr=1
 # LMKD
 ro.config.low_ram=false
 ro.lmk.log_stats=true
+ro.lmk.debug=false
+persist.sys.lmk.reportkills=false
+sys.lmk.reportkills=false
 
 # Media
 mm.enable.smoothstreaming=true
 media.aac_51_output_enabled=true
 media.settings.xml=/vendor/etc/media_profiles_vendor.xml
-media.stagefright.enable-aac=true
-media.stagefright.enable-fma2dp=true
-media.stagefright.enable-http=true
-media.stagefright.enable-player=true
-media.stagefright.enable-qcp=true
-media.stagefright.enable-scan=true
 media.stagefright.thumbnail.prefer_hw_codecs=true
 mmp.enable.3g2=true
 persist.mm.enable.prefetch=true
